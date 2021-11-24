@@ -55,16 +55,13 @@ int	addALElement(ArrayList* pList, int position, ArrayListNode element)
 	{
 		if (isArrayListFull(pList) == FALSE)
 		{
-			if (position >= 0)
+			if (position >= 0 && position <= pList->currentElementCount)
 			{
-				if (position <= pList->currentElementCount)
+				i = pList->currentElementCount - 1;
+				while (i >= position)
 				{
-					i = pList->currentElementCount - 1;
-					while (i >= position)
-					{
-						pList->pElement[i + 1] = pList->pElement[i];
-						i--;
-					}
+					pList->pElement[i + 1] = pList->pElement[i];
+					i--;
 				}
 				pList->pElement[position] = element;
 				pList->currentElementCount++;
