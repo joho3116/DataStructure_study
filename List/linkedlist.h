@@ -1,26 +1,32 @@
 #ifndef _LINKEDLIST_
 #define _LINKEDLIST_
 
+#include <stdlib.h>
+#include <stdio.h>
+
 typedef struct ListNodeType
 {
-	int data;
+	int deg;
+	float coef;
 	struct ListNodeType* pLink;
 } ListNode;
 
 typedef struct LinkedListType
 {
-	int currentElementCount;	// ÇöÀç ÀúÀåµÈ ¿ø¼ÒÀÇ °³¼ö
-	ListNode headerNode;		// Çì´õ ³ëµå(Header Node)
+	int currentElementCount;	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	ListNode headerNode;		// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½(Header Node)
 } LinkedList;
 
-LinkedList* createLinkedList();
+LinkedList *createLinkedList();
 int addLLElement(LinkedList* pList, int position, ListNode element);
 int removeLLElement(LinkedList* pList, int position);
-ListNode* getLLElement(LinkedList* pList, int position);
+ListNode *getLLElement(LinkedList* pList, int position);
 
 void clearLinkedList(LinkedList* pList);
 int getLinkedListLength(LinkedList* pList);
 void deleteLinkedList(LinkedList* pList);
+void displayList(LinkedList *pList);
+void reverseLinkedList(LinkedList* pList);
 #endif
 
 #ifndef _COMMON_LIST_DEF_

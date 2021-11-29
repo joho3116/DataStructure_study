@@ -1,109 +1,103 @@
 #include "linkedlist.h"
-#include <stdlib.h>
-#include <string.h>
-#include <stdio.h>
 
 LinkedList *createLinkedList()
 {
     LinkedList *list;
 
-    if (!(list = (LinkedList *)malloc(sizeof(LinkedList))))
-        return (NULL);
+    list = (LinkedList *)malloc(sizeof(LinkedList));
+
+    if (!list)
+        printf("createLinkedlist 동적할당 실패\n");
     list->currentElementCount = 0;
     list->headerNode.pLink = NULL;
-    return (list);
+    return list;
 }
 
 int addLLElement(LinkedList* pList, int position, ListNode element)
 {
-    ListNode *node;
-    ListNode *tmp;
-    int i;
-    int ret;
+    ListNode *new_node;
+    ListNode *temp;
+    int i=0;
 
-    i = 0;
-    ret = FALSE;
-    if (pList == NULL)
-        return (ret);
-    if (!(node = (ListNode *)malloc(sizeof(ListNode))))
-        return (FALSE);
+    if (!pList)
+        return FALSE;
+    new_node = (ListNode *)malloc(sizeof(ListNode));
+    if (!new_node)
+        return FALSE;
     if (position >= 0 && pList->currentElementCount >= position)
     {
-        *node = element;
-        node->pLink = NULL;
-        tmp = &(pList->headerNode);
-        while (i++ < position)
-            tmp = tmp->pLink;
-        node->pLink = tmp->pLink;
-        tmp->pLink = node;
+        *new_node = element;
+        new_node->pLink = NULL;
+        temp = &(pList->headerNode);
+        while(i++ < position)
+            temp = temp->pLink;
+        new_node->pLink = temp->pLink;
+        temp->pLink = new_node;
         pList->currentElementCount++;
-        ret = TRUE;
+        return TRUE;
     }
-    return (ret);
+    else {
+        printf("addLLElement position 오류\n");
+        return FALSE;
+    }
+
 }
 
 int removeLLElement(LinkedList* pList, int position)
 {
-    ListNode *tmp;
-    ListNode *node;
-    int i;
-    int ret;
+    ListNode *temp;
+    ListNode *del_node;
+    int i = 0;
 
-    i = 0;
-    ret = FALSE;
-    if (pList == NULL)
-        return (ret);
+    if (!pList)
+        return FALSE;
     if (position >= 0 && pList->currentElementCount > position)
     {
-        tmp = &(pList->headerNode);
-        while (i++ < position)
-            tmp = tmp->pLink;
-        node = tmp->pLink;
-        tmp->pLink = node->pLink;
-        free(node);
+        temp = &(pList->headerNode);
+        while(i++<position)
+            temp = temp->pLink;
+        del_node = temp->pLink;
+		temp->pLink = del_node->pLink;
+        free(del_node);
         pList->currentElementCount--;
-        ret = TRUE;
+        return TRUE;
     }
-    return (ret);
+    else {
+        printf("removeLLElement position 오류\n");
+        return FALSE;
+    }
 }
 
 ListNode *getLLElement(LinkedList* pList, int position)
 {
     ListNode *node;
-    int i;
+    int i = 0;
 
-    node = NULL;
-    i = 0;
-    if (pList == NULL)
-        return (NULL);
+    if (!pList)
+        return NULL;
     if (position >= 0 && pList->currentElementCount >= position)
     {
         node = &(pList->headerNode);
-        while (i++ < position)
+        while (i++ <= position)
             node = node->pLink;
+        return node;
     }
-    return (node);
+    return NULL;
 }
 
-void    clearLinkedList(LinkedList* pList)
-{
-    int i;
 
-    i = 0;
-    if (pList == NULL)
-        return ;
-    while (pList->currentElementCount > 0)
-        removeLLElement(pList, 0);
+void clearLinkedList(LinkedList* pList)
+{
+    if (pList != NULL)
+        if (pList->currentElementCount > 0)
+            removeLLElement(pList, 0);
 }
 
-int getLinkedListLength(LinkedList *pList)
+int getLinkedListLength(LinkedList* pList)
 {
-    int ret;
-
-    ret = FALSE;
-    if (pList == NULL)
-        return (ret);
-    ret = pList->currentElementCount;
+    int ret = FALSE;
+    if(pList != NULL)
+        ret = pList->currentElementCount;
     return (ret);
 }
 
@@ -116,22 +110,37 @@ void deleteLinkedList(LinkedList* pList)
     }
 }
 
-void    displayList(LinkedList *pList)
+// void displayList(LinkedList *pList)
+// {
+//     int i = 0;
+//     int num = getLinkedListLength(pList);
+//     if (pList != NULL) {
+// 		printf("현재 원소 개수 : %d\n", num);
+//         while (i < num)
+//         {
+//             printf("[%d]: %d\n", i, getLLElement(pList, i)->data);
+//             i++;
+//         }
+//     }
+//     else
+//         printf("원소 없음\n");
+// }
+
+void reverseLinkedList(LinkedList* pList)
 {
-    int i;
-    int len;
+	ListNode *pNode = NULL;
+	ListNode *pCurrentNode = NULL;
+	ListNode *pPrevNode = NULL;
 
-    i = 0;
-    len = getLinkedListLength(pList);
-    if (pList == NULL)
-    {
-        printf("List is empty.\n");
-        return (NULL);
-    printf ("Current element count is %d\n", len);
-    while (i < len)
-    {
-        printf("[%d] Index element is %d\n", i, getLLElement(pList, i)->data);
-        i++;
-    }
-
+	if (!pList)
+		return ;
+	pNode = pList->headerNode.pLink;
+	while(pNode)
+	{
+		pPrevNode = pCurrentNode;
+		pCurrentNode = pNode;
+		pNode =pNode->pLink;
+		pCurrentNode->pLink = pPrevNode;
+	}
+	pList->headerNode.pLink = pCurrentNode;
 }
