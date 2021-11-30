@@ -9,7 +9,10 @@ LinkedStack* createLinkedStack()
 		return (NULL);
 	stack->currentElementCount = 0;
 	if (!(stack->pTopElement = malloc(sizeof(StackNode))))
+    {
+        free(stack);
 		return (NULL);
+    }
 	stack->pTopElement->data = 0;
 	stack->pTopElement->pLink = NULL;
 	return (stack);
@@ -46,6 +49,7 @@ StackNode* popLS(LinkedStack* pStack)
 	pStack->currentElementCount--;
 	return (node);
 }
+
 StackNode* peekLS(LinkedStack* pStack)
 {
 	StackNode *node;
@@ -57,6 +61,7 @@ StackNode* peekLS(LinkedStack* pStack)
 	node = pStack->pTopElement->pLink;
 	return (node);
 }
+
 void deleteLinkedStack(LinkedStack* pStack)
 {
 	int i;
@@ -72,10 +77,12 @@ void deleteLinkedStack(LinkedStack* pStack)
 	free(pStack->pTopElement);
 	free(pStack);
 }
+
 // int isLinkedStackFull(LinkedStack* pStack);
 // {
 
 // }
+
 int isLinkedStackEmpty(LinkedStack* pStack)
 {
 	int	ret;

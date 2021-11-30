@@ -1,5 +1,4 @@
 #include "arraystack.h"
-#include "../List/arraylist.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -19,10 +18,14 @@ ArrayStack* createArrayStack(int maxElementCount)
         array->pElement = NULL;
     }
     if (!(array->pElement = malloc(sizeof(ArrayStackNode) * maxElementCount)))
+    {
+        free (array);
         return (NULL);
+    }
     memset(array->pElement, 0, sizeof(ArrayStackNode) * maxElementCount);
     return (array);
 }
+
 int pushAS(ArrayStack* pStack, ArrayStackNode element)
 {
     int ret;
@@ -41,6 +44,7 @@ int pushAS(ArrayStack* pStack, ArrayStackNode element)
     return (ret);
 
 }
+
 ArrayStackNode* popAS(ArrayStack* pStack)
 {
     ArrayStackNode *node;
@@ -55,6 +59,7 @@ ArrayStackNode* popAS(ArrayStack* pStack)
     }
     return (node);
 }
+
 ArrayStackNode* peekAS(ArrayStack* pStack)
 {
     ArrayStackNode *node;
@@ -66,6 +71,7 @@ ArrayStackNode* peekAS(ArrayStack* pStack)
         node = &(pStack->pElement[pStack->currentElementCount - 1]);
     return (node);
 }
+
 void deleteArrayStack(ArrayStack* pStack)
 {
     if (pStack != NULL)
@@ -74,6 +80,7 @@ void deleteArrayStack(ArrayStack* pStack)
         free(pStack);
     }
 }
+
 int isArrayStackFull(ArrayStack* pStack)
 {
     int ret;
@@ -86,6 +93,7 @@ int isArrayStackFull(ArrayStack* pStack)
     }
     return (ret);
 }
+
 int isArrayStackEmpty(ArrayStack* pStack)
 {
     int ret;
