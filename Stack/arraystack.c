@@ -51,7 +51,6 @@ ArrayStackNode* popAS(ArrayStack* pStack)
     if (!isArrayStackEmpty(pStack))
     {
         node = &(pStack->pElement[pStack->currentElementCount - 1]);
-        pStack->pElement[pStack->currentElementCount - 1].data = 0;
         pStack->currentElementCount--;
     }
     return (node);
@@ -94,8 +93,8 @@ int isArrayStackEmpty(ArrayStack* pStack)
     ret = FALSE;
     if (pStack != NULL)
     {
-    if (pStack->currentElementCount == 0)
-        ret = TRUE;
+        if (pStack->currentElementCount == 0)
+            ret = TRUE;
     }
     return (ret);
 }

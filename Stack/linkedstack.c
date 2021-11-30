@@ -23,7 +23,7 @@ int pushLS(LinkedStack* pStack, StackNode element)
 	ret = FALSE;
 	if (pStack == NULL)
 		return (ret);
-	if (!(node = maolloc(sizeof(StackNode))))
+	if (!(node = malloc(sizeof(StackNode))))
 		return (ret);
 	node->data = element.data;
 	node->pLink = pStack->pTopElement->pLink;
