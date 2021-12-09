@@ -10,8 +10,8 @@ typedef struct DoublyListNodeType
 
 typedef struct DoublyListType
 {
-	int	currentElementCount;		// 현재 저장된 원소의 개수
-	DoublyListNode	headerNode;		// 헤더 노드(Header Node)
+	int	currentElementCount;
+	DoublyListNode	headerNode;
 } DoublyList;
 
 DoublyList* createDoublyList();

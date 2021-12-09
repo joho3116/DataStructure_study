@@ -78,11 +78,6 @@ void deleteLinkedStack(LinkedStack* pStack)
 	free(pStack);
 }
 
-// int isLinkedStackFull(LinkedStack* pStack);
-// {
-
-// }
-
 int isLinkedStackEmpty(LinkedStack* pStack)
 {
 	int	ret;

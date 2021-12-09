@@ -19,7 +19,7 @@ ArrayStack* createArrayStack(int maxElementCount)
     }
     if (!(array->pElement = malloc(sizeof(ArrayStackNode) * maxElementCount)))
     {
-        free (array);
+        free(array);
         return (NULL);
     }
     memset(array->pElement, 0, sizeof(ArrayStackNode) * maxElementCount);
