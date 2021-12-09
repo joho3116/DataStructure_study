@@ -1,5 +1,7 @@
 #include "linkedstack.h"
 #include <stdio.h>
+#include <stdlib.h>
+
 
 LinkedStack* createLinkedStack()
 {
@@ -13,7 +15,8 @@ LinkedStack* createLinkedStack()
         free(stack);
 		return (NULL);
     }
-	stack->pTopElement->data = 0;
+	stack->pTopElement->pos.x = 0;
+	stack->pTopElement->pos.y = 0;
 	stack->pTopElement->pLink = NULL;
 	return (stack);
 }
@@ -28,7 +31,7 @@ int pushLS(LinkedStack* pStack, StackNode element)
 		return (ret);
 	if (!(node = malloc(sizeof(StackNode))))
 		return (ret);
-	node->data = element.data;
+	node->pos = element.pos;
 	node->pLink = pStack->pTopElement->pLink;
 	pStack->pTopElement->pLink = node;
 	pStack->currentElementCount++;
@@ -68,7 +71,7 @@ void deleteLinkedStack(LinkedStack* pStack)
 
 	i = 0;
 	if (pStack == NULL)
-		return (NULL);
+		return ;
 	while (i < pStack->currentElementCount)
 	{
 		free(popLS(pStack));
