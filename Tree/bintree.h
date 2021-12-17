@@ -24,6 +24,8 @@ BinTreeNode* getRightChildNodeBT(BinTreeNode* pNode);
 void deleteBinTree(BinTree* pBinTree);
 void deleteBinTreeNode(BinTreeNode* pNode);
 
+void    PostOrderDelete(BinTreeNode *pParentNode);
+
 
 void    PreOrderSearch(BinTreeNode *pParentNode);
 void    InOrderSearch(BinTreeNode *pParentNode);

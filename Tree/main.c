@@ -43,4 +43,5 @@ int main()
     printf("\n\n====후위순회====\n\n");
     PostOrderSearch(Tree->pRootNode);
 
+    deleteBinTree(Tree);
 }
