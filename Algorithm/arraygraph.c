@@ -28,6 +28,7 @@ ArrayGraph* createArrayGraph(int maxVertexCount)
     pGraph->currentVertexCount = 0;
     pGraph->graphType = GRAPH_UNDIRECTED;
     pGraph->pVertex = Vertex;
+    pGraph->EdgeCnt = 0;
     pGraph->ppAdjEdge = pAdjEdge;
     return (pGraph);
 }
@@ -98,12 +99,9 @@ int addVertexAG(ArrayGraph* pGraph, int vertexID)
     int i;
 
     ret = FALSE;
-    i = 0;
     if (pGraph != NULL && checkVertexValid(pGraph, vertexID))
     {
-        while (pGraph->pVertex[i])
-            i++;
-        pGraph->pVertex[i] = vertexID;
+        pGraph->pVertex[vertexID] = vertexID;
         pGraph->currentVertexCount++;
         ret = TRUE;
     }
@@ -136,6 +134,7 @@ int addEdgewithWeightAG(ArrayGraph* pGraph, int fromVertexID, int toVertexID, in
     {
         pGraph->ppAdjEdge[fromVertexID][toVertexID] = weight;
         ret = TRUE;
+        pGraph->EdgeCnt++;
     }
     if (pGraph->graphType == GRAPH_UNDIRECTED)
         pGraph->ppAdjEdge[toVertexID][fromVertexID] = weight;
@@ -149,7 +148,7 @@ int checkVertexValid(ArrayGraph* pGraph, int vertexID)
 
     ret = FALSE;
 
-    if (pGraph != NULL && (vertexID - 1) < pGraph->maxVertexCount && vertexID >= 0)
+    if (pGraph != NULL && vertexID < pGraph->maxVertexCount && vertexID >= 0)
         ret = TRUE;
     return (ret);
 }
@@ -165,9 +164,8 @@ int removeVertexAG(ArrayGraph* pGraph, int vertexID)
         for (int i = 0; i < pGraph->maxVertexCount; i++)
         {
             pGraph->ppAdjEdge[i][vertexID] = 0;
-
         }
-        pGraph->pVertex[vertexID - 1] = 0;
+        pGraph->pVertex[vertexID] = 0;
         pGraph->currentVertexCount--;
         ret = TRUE;
     }
@@ -181,11 +179,12 @@ int removeEdgeAG(ArrayGraph* pGraph, int fromVertexID, int toVertexID)
     ret = FALSE;
     if (pGraph != NULL && checkVertexValid(pGraph, fromVertexID) && checkVertexValid(pGraph, toVertexID))
     {
-        pGraph->ppAdjEdge[fromVertexID - 1][toVertexID - 1] = 0;
+        pGraph->ppAdjEdge[fromVertexID][toVertexID] = 0;
         ret = TRUE;
     }
     if (pGraph->graphType == GRAPH_UNDIRECTED)
-        pGraph->ppAdjEdge[toVertexID - 1][fromVertexID - 1] = 0;
+        pGraph->ppAdjEdge[toVertexID][fromVertexID] = 0;
+    pGraph->EdgeCnt--;
     return (ret);
 }
 
@@ -220,43 +219,33 @@ void displayArrayGraph(ArrayGraph* pGraph)
     }
 }
 
-int    *init_parent(ArrayGraph *pGraph)
-{
-    int *parent;
+// int main() 
+// {
+//     int Vertexcount;
+//     int *parent;
+//     ArrayGraph *Graph;
 
-    parent = malloc(sizeof(int) * pGraph->currentVertexCount);
-    for (int i = 0; i < pGraph->currentVertexCount; i++)
-        parent[i] = pGraph->pVertex[i];
-    return (parent);
-}
-
-int main() 
-{
-    int Vertexcount;
-    int *parent;
-    ArrayGraph *Graph;
-
-    Vertexcount = 7;
-    Graph = createArrayGraph(Vertexcount);
-    addVertexAG(Graph, 1);
-    addVertexAG(Graph, 2);
-    addVertexAG(Graph, 3);
-    addVertexAG(Graph, 4);
-    addVertexAG(Graph, 5);
-    addVertexAG(Graph, 6);
-    addVertexAG(Graph, 7);
-    addEdgewithWeightAG(Graph, 1, 2, 67);
-    addEdgewithWeightAG(Graph, 1, 5, 17);
-    addEdgewithWeightAG(Graph, 1, 4, 28);
-    addEdgewithWeightAG(Graph, 1, 7, 12);
-    addEdgewithWeightAG(Graph, 2, 4, 24);
-    addEdgewithWeightAG(Graph, 2, 5, 62);
-    addEdgewithWeightAG(Graph, 3, 5, 20);
-    addEdgewithWeightAG(Graph, 3, 6, 37);
-    addEdgewithWeightAG(Graph, 4, 7, 13);
-    addEdgewithWeightAG(Graph, 5, 7, 73);
-    addEdgewithWeightAG(Graph, 5, 6, 45);
-    displayArrayGraph(Graph);
-    deleteArrayGraph(Graph);
-        return (0);
-}
+//     Vertexcount = 7;
+//     Graph = createArrayGraph(Vertexcount);
+//     addVertexAG(Graph, 1);
+//     addVertexAG(Graph, 2);
+//     addVertexAG(Graph, 3);
+//     addVertexAG(Graph, 4);
+//     addVertexAG(Graph, 5);
+//     addVertexAG(Graph, 6);
+//     addVertexAG(Graph, 7);
+//     addEdgewithWeightAG(Graph, 1, 2, 67);
+//     addEdgewithWeightAG(Graph, 1, 5, 17);
+//     addEdgewithWeightAG(Graph, 1, 4, 28);
+//     addEdgewithWeightAG(Graph, 1, 7, 12);
+//     addEdgewithWeightAG(Graph, 2, 4, 24);
+//     addEdgewithWeightAG(Graph, 2, 5, 62);
+//     addEdgewithWeightAG(Graph, 3, 5, 20);
+//     addEdgewithWeightAG(Graph, 3, 6, 37);
+//     addEdgewithWeightAG(Graph, 4, 7, 13);
+//     addEdgewithWeightAG(Graph, 5, 7, 73);
+//     addEdgewithWeightAG(Graph, 5, 6, 45);
+//     displayArrayGraph(Graph);
+//     deleteArrayGraph(Graph);
+//         return (0);
+// }
